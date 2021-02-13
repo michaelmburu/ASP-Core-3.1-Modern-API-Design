@@ -56,6 +56,7 @@ namespace CommandAPI.Tests
 
         }
 
+        //Test if we can add command line
         [Fact]
         public void CanChangeCommandLine()
         {
