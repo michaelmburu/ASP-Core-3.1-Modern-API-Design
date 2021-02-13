@@ -118,5 +118,75 @@ namespace CommandAPI.Tests
             //Assert
             Assert.IsType<ActionResult<IEnumerable<CommandReadDTO>>>(result);
         }
+
+        //Check 4040 Not Found HTTP response
+        [Fact]
+        public void GetCommandByID_Returns404NotFound_WhenNonExisitentIDPRovided()
+        {
+            //Arrange
+            mockRepo.Setup(repo => repo.GetCommandById(0)).Returns(() => null);
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //Act
+            var result = controller.GetCommandById(1);
+
+            //Assert
+            Assert.IsType<NotFoundObjectResult>(result.Result);
+        }
+
+        //Check 200 OK HTTP Response
+        [Fact]
+        public void GetCommandByID_Returns200Ok_WhenValidIDIsProvided()
+        {
+            //Arrange
+            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(new Command { Id = 1, HowTo = "mock", Platform = "Mock", CommandLine = "Mock" });
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //Act
+            var result = controller.GetCommandById(1);
+
+            //Assert
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public void GetCommandByID_Returns200Ok_WhenValidIDProvided()
+        {
+            //Arrange
+            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(new Command
+            {
+                Id = 1,
+                HowTo = "mock",
+                Platform = "Mock",
+                CommandLine = "Mock"
+            });
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //Act
+            var Result = controller.GetCommandById(1);
+
+            //Assert
+            Assert.IsType<ActionResult<CommandReadDTO>>(Result);
+        }
+
+        //Check if the correct object type is returned
+        [Fact]
+        public void CreateCommand_ReturnsCorrectResourceType_WhenValidObjectSubmitted()
+        {
+            //Arrange
+            mockRepo.Setup(repo => repo.GetCommandById(1)).Returns(new Command { Id = 1, HowTo = " Mock", Platform = "Mock", CommandLine = "Mock" });
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            //Act
+            var result = controller.CreateCommand(new CommandCreateDTO { });
+
+            //Assert
+            Assert.IsType<ActionResult<CommandReadDTO>>(result);
+        }
+
+
     }
 }
