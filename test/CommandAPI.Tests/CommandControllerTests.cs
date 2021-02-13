@@ -116,7 +116,7 @@ namespace CommandAPI.Tests
             var result = controller.GetAllCommands();
 
             //Assert
-            Assert.IsType<ActionResult<IEnumerable<CommandReadDTO>>>(result);
+            Assert.IsType<ActionResult<IEnumerable<Command>>>(result);
         }
 
         //Check 4040 Not Found HTTP response
@@ -132,7 +132,7 @@ namespace CommandAPI.Tests
             var result = controller.GetCommandById(1);
 
             //Assert
-            Assert.IsType<NotFoundObjectResult>(result.Result);
+            Assert.IsType<NotFoundResult>(result.Result);
         }
 
         //Check 200 OK HTTP Response
@@ -166,10 +166,10 @@ namespace CommandAPI.Tests
             var controller = new CommandsController(mockRepo.Object, mapper);
 
             //Act
-            var Result = controller.GetCommandById(1);
+            var result = controller.GetCommandById(1);
 
             //Assert
-            Assert.IsType<ActionResult<CommandReadDTO>>(Result);
+            Assert.IsType<OkObjectResult>(result.Result);
         }
 
         //Check if the correct object type is returned
