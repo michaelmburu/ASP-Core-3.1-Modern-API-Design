@@ -46,7 +46,6 @@ namespace CommandAPI.Tests
         {
             //Arrange
 
-
             //Act
             testCommand.Platform = "net 4.5";
 
